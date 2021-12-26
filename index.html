@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>Vue Mastery</title>
-    <!-- Import Styles -->
+    <title>Vue3チュートリアル</title>
+    <!-- CSSをインポート -->
     <link rel="stylesheet" href="./assets/styles.css" />
-    <!-- Import Vue3(CDN) -->
+    <!-- Vue3をインポート(CDN) -->
     <script src="https://unpkg.com/vue@3.0.0-beta.12/dist/vue.global.js"></script>
   </head>
   <body>
     <div id="app">
       <div class="nav-bar"></div>
-      <div class="cart">Cart({{ cart }})</div>
-      <product-display :premium="premium"></product-display>
+      <div class="cart">カート({{ cart.length }})</div>
+      <product-display :premium="premium" @add-to-cart="updateCart"></product-display>
     </div>
 
-    <!-- Import Js -->
+    <!-- JSをインポート -->
     <script src="./main.js"></script>
 
-    <!-- Import Component -->
+    <!-- コンポーネントをインポート -->
     <script src="./components/productDisplay.js"></script>
+    <script src="./components/reviewForm.js"></script>
+    <script src="./components/reviewList.js"></script>
 
-    <!-- Mount App -->
+    <!-- マウント -->
     <script>
       const mountedApp = app.mount('#app')
     </script>

@@ -14,10 +14,10 @@ app.component('product-display', {
       </div>
       <div id="app">
         <h1>{{ title }}</h1>
-        <p v-if="inStock" >In Stock</p>
-        <p v-else>Out of Stock</p>
+        <p v-if="inStock" >在庫あり</p>
+        <p v-else>売り切れです</p>
 
-        <p>Shipping: {{ shipping }}</p>
+        <p>送料: {{ shipping }}</p>
         <ul>
           <li v-for="detail in details">{{ detail }}</li>
         </ul>
@@ -35,10 +35,12 @@ app.component('product-display', {
           :class="{ disabledButton: !inStock }"
           :disabled="!inStock"
           v-on:click="addToCart">
-          Add to Cart
+          カートへ
         </button>
       </div>
     </div>
+    <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+    <review-form @review-submitted="addReview"></review-form>
   </div>`,
 
   data() {
@@ -47,20 +49,24 @@ app.component('product-display', {
       product: 'Socks',
       brand: 'Vue Mastery',
       selectedVariant: 1,
-      details: ['50% cotton', '30% wool', '20% polyester'],
+      details: ['50% コットン', '30% ウール', '20% ポリエステル'],
       variants: [
         { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50 },
         { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0 },
-      ]
+      ],
+      reviews: []
     }
   },
 
   methods: {
     addToCart() {
-      this.cart += 1
+      this.$emit('add-to-cart', this.variants[this.selectedVariant].id)
     },
     updateVariant(index) {
       this.selectedVariant = index
+    },
+    addReview(review) {
+      this.reviews.push(review)
     }
   },
 
@@ -76,7 +82,7 @@ app.component('product-display', {
     },
     shipping() {
       if (this.premium) {
-        return 'Free'
+        return '無料'
       }
       return 2.99
     }
